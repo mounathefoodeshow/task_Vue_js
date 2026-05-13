@@ -1,76 +1,88 @@
-
 <template>
   <h1>To do Management</h1>
   <input v-model="input"/>
   <button @click="AddTask">Add new Task </button>
-  <p v-for="(task,index) in tasks">{{task}}
-  <button :style="{background: color}" @click="DoneTask(index)">done</button>
-  <button @click="DeleteTask(index)">Delete</button>
-  </p>
-  <p>Done task</p>
-  <p v-for="done in dones">{{done}}</p>
-  <p>Filter Task 
-  <button @click="allTasks">All</button>
-  <p v-for="task in all">{{ task }}</p>
-  <button >Active </button>
-  <p v-for="task in tasks">{{ task }}</p>
-  <button @click="completedTask">Completed</button>
-  <p v-for="task in dones">{{ task }}</p>
-</p>
+<div v-for="task in tasks" >
+  <p>{{ task.content }} 
+  <button :style="{background: color}" @click="DoneTask(task.id)">done</button>
+  <button @click="DeleteTask(id)">Delete</button></p>
+</div>
+
+  <p>Filter Task</p>
+  <button @click="filter = 'all'">All</button>
+  <button @click="filter='active'">Active </button>
+  <button @click="filter='completed'">Completed</button>
+  <span>{{filteredTasks}}</span>
+
 </template> 
 
 <script setup>
-import  {ref} from 'vue'
+
+import  {ref,computed} from 'vue'
+
 var input=ref("");
 let color = ref('green');
 const tasks=ref([]);
-const dones=ref([]);
-const all = ref([])
+const all = ref([]);
+const filter = ref('all');
+
+var count=ref(0);
 function AddTask(){
-  if(input.value!==""){
-    tasks.value.push(input.value)
+    if(input.value!==""){
+    tasks.value.push({
+      id:count.value++,
+      content:input.value,
+      isDone:false
+    })
     input.value="";
   }
 }
-function DoneTask(index){
-  dones.value.push(tasks.value[index]);
-  tasks.value.splice(index,1);
+
+function DoneTask(id) {
+  const task = tasks.value.find(t => t.id === id);
+  if (task) {
+    task.isDone = true;
+  }
 }
-function DeleteTask(index){
-  tasks.value.forEach((task,i)=>{
-    if(i===index){
-        tasks.value.splice(i,1);
+
+function DeleteTask(id){
+  tasks.value.forEach((task,id)=>{
+    if(id===id){
+        tasks.value.splice(id,1);
     }
   })
 }
+
+
 function allTasks(){
-
   all.value = []
-
   tasks.value.forEach((task)=>{
     all.value.push(task)
   })
-
   dones.value.forEach((done)=>{
     all.value.push(done)
   })
 }
+
 function completedTask(){
     dones.value.forEach((done)=>{
         done.value
     })
 }
+
 function ActiveTask(){
     tasks.value.forEach((task)=>{
         task.value
     })
 }
+
+const filteredTasks = computed(() => {
+  if (filter.value === 'active')  
+    return tasks.value.filter(task => !task.isDone);
+  if (filter.value === 'completed')
+   return tasks.value.filter(task => task.isDone);
+  return tasks.value;
+});
+
 </script>
-
-
 <style scoped></style>
-
-
-
-
-
