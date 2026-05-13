@@ -1,27 +1,36 @@
 <template>
-  <h1>To do Management</h1>
-  <input v-model="input"/>
-  <button @click="AddTask">Add new Task </button>
-<div v-for="task in tasks" >
-  <p>{{ task.content }} 
-  <button :style="{background: color}" @click="DoneTask(task.id)">done</button>
-  <button @click="DeleteTask(id)">Delete</button></p>
-</div>
-
-  <p>Filter Task</p>
-  <button @click="filter = 'all'">All</button>
-  <button @click="filter='active'">Active </button>
-  <button @click="filter='completed'">Completed</button>
-  <span>{{filteredTasks}}</span>
-
-</template> 
+  <div class="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+    <div class="w-full max-w-2xl bg-white shadow-xl rounded-3xl p-8 space-y-7">
+      <h1 class="text-4xl font-bold text-gray-800 text-center">To Do Management</h1>
+      <div class="flex items-center gap-3">
+        <input v-model="input"
+          placeholder="Ajouter un task..."
+          class="flex-1 border border-gray-300 bg-gray-50 rounded-2xl px-5 py-3 text-sm outline-none"/>
+        <button @click="AddTask" class="bg-blue-500 text-white px-6 py-3 rounded-2xl text-sm font-medium">Add Task</button>
+      </div>
+      <div class="space-y-4">
+        <div v-for="task in filteredTasks" class="flex items-center justify-between bg-gray-100 rounded-2xl px-5 py-4">
+        <p class="text-gray-800 font-medium text-[15px]">{{ task.content }}</p>
+        <div class="flex items-center gap-2">
+        <button @click="DoneTask(task.id)" class="bg-green-500 text-white px-4 py-2 rounded-2xl text-sm font-medium">Done</button>
+        <button @click="DeleteTask(task.id)" class="bg-red-500 text-white px-4 py-2 rounded-2xl text-sm font-medium">Delete</button>
+        </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-center gap-3 pt-2">
+        <p class="text-gray-700 font-medium">Filter Votre Task</p>
+        <button @click="filter = 'all'" class="px-5 py-2 rounded-xl bg-blue-500 text-white text-sm font-medium">All</button>
+        <button @click="filter='active'" class="px-5 py-2 rounded-xl bg-red-500 text-white text-sm font-medium">Active</button>
+        <button @click="filter='completed'" class="px-5 py-2 rounded-xl bg-green-500 text-white text-sm font-medium">Completed</button>
+      </div>
+    </div>
+  </div>
+</template>
 
 <script setup>
-
 import  {ref,computed} from 'vue'
 
 var input=ref("");
-let color = ref('green');
 const tasks=ref([]);
 const all = ref([]);
 const filter = ref('all');
@@ -85,4 +94,10 @@ const filteredTasks = computed(() => {
 });
 
 </script>
-<style scoped></style>
+
+<style scoped>
+</style>
+
+
+
+
