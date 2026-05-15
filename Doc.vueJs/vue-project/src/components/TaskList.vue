@@ -14,7 +14,7 @@
 import {ref} from 'vue'
 
 const props = defineProps({
-  tasks: {
+ tasks: {
     type: Array
   }
 })
