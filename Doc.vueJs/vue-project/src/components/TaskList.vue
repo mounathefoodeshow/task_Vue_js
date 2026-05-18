@@ -12,7 +12,5 @@
 
 <script setup>
 import { useTaskStore } from '../stores/taskStore'
-
 const store = useTaskStore()
-
 </script>

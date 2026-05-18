@@ -20,5 +20,3 @@ function AddTask() {
   }
 }
 </script>
-
-<style></style>
