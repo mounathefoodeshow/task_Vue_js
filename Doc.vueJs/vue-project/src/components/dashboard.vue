@@ -5,7 +5,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div class="bg-blue-50 border border-blue-200 p-6 rounded-2xl text-center shadow-sm">
         <h3 class="text-lg font-semibold text-blue-800">Total Tasks</h3>
-        <p class="text-4xl font-bold text-blue-600 mt-2">{{ tasks.length }}</p>
+        <p class="text-4xl font-bold text-blue-600 mt-2">{{ store.tasks.length }}</p>
       </div>
       
       <div class="bg-green-50 border border-green-200 p-6 rounded-2xl text-center shadow-sm">
@@ -23,15 +23,10 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useTaskStore } from '../stores/taskStore'
 
-const props = defineProps({
-  tasks: {
-    type: Array,
-    required: true,
-    default: () => []
-  }
-});
+const store = useTaskStore()
 
-const completedCount = computed(() => props.tasks.filter(t => t.isDone).length);
-const activeCount = computed(() => props.tasks.filter(t => !t.isDone).length);
+const completedCount = computed(() => store.tasks.filter(t => t.isDone).length);
+const activeCount = computed(() => store.tasks.filter(t => !t.isDone).length);
 </script>
