@@ -1,10 +1,26 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 export const useTaskStore = defineStore('task', () => {
   const filter = ref("all");
   const tasks = ref([]);
   const count = ref(0);
+
+  if (localStorage.getItem('tasks')) {
+    tasks.value = JSON.parse(localStorage.getItem('tasks'));
+  }
+
+  if (localStorage.getItem('count')) {
+    count.value = Number(localStorage.getItem('count'));
+  }
+
+  watch(tasks, (newTasks) => {
+    localStorage.setItem('tasks', JSON.stringify(newTasks));
+  });
+
+  watch(count, (newCount) => {
+    localStorage.setItem('count', newCount.toString());
+  });
 
   function addTask(content) {
     tasks.value.push({
