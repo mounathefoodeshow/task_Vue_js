@@ -16,7 +16,7 @@ export const useTaskStore = defineStore('task', () => {
 
   watch(tasks, (newTasks) => {
     localStorage.setItem('tasks', JSON.stringify(newTasks));
-  });
+  }, { deep: true });
 
   watch(count, (newCount) => {
     localStorage.setItem('count', newCount.toString());
